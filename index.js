@@ -1,6 +1,18 @@
 const apiKey = 'psYyc2gKjsKP6YkqUOd1ox8X8iccIvPdZYi2iJuq';
 const STATE_CODES = "AK AL AZ AR CA CO CT DE FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(' ');
 
+function renderObjectInHtml(park) {
+  let Html = `<div class="result">
+  <h3>${park.fullName}</h3>
+  <p>Description: ${park.description}</p>
+  <p><a href="${park.url}">Website</a></p>
+  <p>Address: </p>
+  </div>`;
+
+  return Html;
+
+}
+
 function formSubmitWatcher() {
   $('form').on('submit', event => {
     event.preventDefault();
@@ -43,9 +55,15 @@ function getResults(url){
     .catch(error => console.log(error));
 }
 
+function getAddress(url) {
+  //function stub for address
+}
+
 function renderResults(response) {
   html = '';
+  response.data.forEach(park => html = html.concat(renderObjectInHtml(park))) 
   console.log('render results')
+  $('#results').html(html);
 }
 
 function formatUrl(params){
@@ -54,9 +72,7 @@ function formatUrl(params){
     .map(key => `${encodeURIComponent(key)}=${encodeURIComponent(params[key])}`);
   url = url.concat(queryItems.join('&'));
   return url;
-}
-
-
+} 
 
 
 $(function() {
